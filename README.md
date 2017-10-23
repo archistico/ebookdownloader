@@ -10,3 +10,13 @@ http://localhost:8000/config.php
 php bin/console security:check
 
 composer install
+
+// cambio password root in mysql
+mysql -u root -p'toor'
+SHOW VARIABLES LIKE 'validate_password%';
+SET GLOBAL ...
+quit
+mysqladmin -u root -p'...' password 'toor'
+
+mysql -u root -p'toor'
+CREATE DATABASE ebookdownloader;
