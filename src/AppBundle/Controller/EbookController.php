@@ -21,8 +21,8 @@ class EbookController extends Controller
         $ebook->setCodice('1234567890');
         
         $form = $this->createFormBuilder($ebook)
-            ->add('codice', TextType::class)
-            ->add('save', SubmitType::class, array('label' => 'Crea ebook'))
+            ->add('codice', TextType::class, array('label' => 'Inserisci il codice del cartoncino'))
+            ->add('save', SubmitType::class, array('label' => 'Crea ebook', 'attr' => array('class' => 'btn-primary btn-block')))
             ->getForm();
 
         return $this->render('AppBundle:Ebook:index.html.twig', array(
