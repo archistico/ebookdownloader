@@ -3,11 +3,30 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
+    <div class="container">
+      <main role="main">
+
+        <div class="jumbotron">
+          <h1 class="display-3">Elmi's World</h1>
+          <p class="lead">Casa editrice</p>
+        </div>
+      
         {% block body %}{% endblock %}
+      </main>
+
+        <footer class="footer">
+          <p>&copy; Studio Archistico 2017</p>
+        </footer>
+
+        <script src="{{ asset('js/jquery.min.js') }}"></script>
+        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
         {% block javascripts %}{% endblock %}
+    </div>
     </body>
 </html>
