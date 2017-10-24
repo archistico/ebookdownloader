@@ -40,7 +40,7 @@ class EbookController extends Controller
             if (!$ebook) {
                 $this->addFlash(
                     'notice',
-                    'Nessun ebook con questo codice!'
+                    'Nessun ebook con questo codice: '.$codice
                 );
 
                 return $this->redirectToRoute('homepage');                
