@@ -28,9 +28,15 @@ class EbookController extends Controller
         $form->handleRequest($request);
             
         if ($form->isSubmitted() && $form->isValid()) {
-            // esegue alcune azioni, come ad esempio salvare il task nella base dati
             
-            return $this->redirect($this->generateUrl('task_success'));
+            $ebook = $form->getData();
+            $ebook->setEpub('file.epub');
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($ebook);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('homepage'));
         }
 
         return $this->render('AppBundle:Ebook:index.html.twig', array(
@@ -38,6 +44,28 @@ class EbookController extends Controller
         ));
         
         
+    }
+
+    /**
+     * @Route("/download/{codice}", name="download")
+     */
+    public function downloadAction($codice)
+    {
+        $ebook = $this->getDoctrine()
+            ->getRepository(Ebook::class)
+            ->findOneBy(
+                array('codice' => $codice)
+            );
+    
+        if (!$ebook) {
+            throw $this->createNotFoundException(
+                'Nessun ebook ha questo codice '.$codice
+            );
+        }
+    
+        return $this->render('AppBundle:Ebook:download.html.twig', array(
+            'ebook' => $ebook,
+        ));
     }
 
 }
