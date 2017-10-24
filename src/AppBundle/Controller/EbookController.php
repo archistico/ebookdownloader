@@ -17,22 +17,12 @@ class EbookController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('AppBundle:Ebook:index.html.twig', array(
-            // ...
-        ));
-    }
-
-    /**
-     * @Route("/nuovo", name="nuovo")
-     */
-    public function nuovoAction(Request $request)
-    {
         $ebook = new Ebook();
         $ebook->setCodice('1234567890');
         
         $form = $this->createFormBuilder($ebook)
             ->add('codice', TextType::class)
-            ->add('save', 'submit', array('label' => 'Crea ebook'))
+            ->add('save', SubmitType::class, array('label' => 'Crea ebook'))
             ->getForm();
 
         return $this->render('AppBundle:Ebook:index.html.twig', array(
