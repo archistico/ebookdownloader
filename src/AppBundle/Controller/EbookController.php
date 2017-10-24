@@ -15,19 +15,29 @@ class EbookController extends Controller
     /**
      * @Route("/", name="homepage")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $ebook = new Ebook();
-        $ebook->setCodice('1234567890');
+        //$ebook->setCodice('1234567890');
         
         $form = $this->createFormBuilder($ebook)
             ->add('codice', TextType::class, array('label' => 'Inserisci il codice del cartoncino'))
             ->add('save', SubmitType::class, array('label' => 'Crea ebook', 'attr' => array('class' => 'btn-primary btn-block')))
             ->getForm();
+        
+        $form->handleRequest($request);
+            
+        if ($form->isSubmitted() && $form->isValid()) {
+            // esegue alcune azioni, come ad esempio salvare il task nella base dati
+            
+            return $this->redirect($this->generateUrl('task_success'));
+        }
 
         return $this->render('AppBundle:Ebook:index.html.twig', array(
             'form' => $form->createView(),
         ));
+        
+        
     }
 
 }

@@ -29,3 +29,5 @@ git push origin master
 
 Aggiornare il locale rispetto al remoto  
 git pull origin master  
+
+php bin/console doctrine:schema:update --force  
