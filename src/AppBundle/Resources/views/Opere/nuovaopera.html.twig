@@ -1,0 +1,14 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Nuova opera{% endblock %}
+
+{% block body %}
+<h1>Inserisci nuova opera</h1>
+<div class="row">
+    <div class="col-lg-12">
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}

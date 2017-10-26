@@ -1,0 +1,35 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Lista opere{% endblock %}
+
+{% block body %}
+<h1>Lista opere</h1>
+<div class="row">
+    <div class="col-lg-12">
+    <div class="table-responsive"> 
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Titolo</th>
+                    <th>Autore</th>
+                    <th>ISBN</th>
+                    <th>Nome file</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% for o in opere %}
+            <tr>
+                <td>{{ o.id }}</td>
+                <td>{{ o.titolo }}</td>
+                <td>{{ o.autore }}</td>
+                <td>{{ o.isbn }}</td>
+                <td>{{ o.nomefile }}</td>
+            </tr>
+        {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </div>
+</div>
+{% endblock %}
