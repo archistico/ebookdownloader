@@ -31,3 +31,11 @@ Aggiornare il locale rispetto al remoto
 git pull origin master  
 
 php bin/console doctrine:schema:update --force  
+
+// Sul server Ubuntu
+
+sudo chown -R $USER $HOME/.composer
+
+sudo apt-get update
+sudo apt-get install php7.1-xml
+sudo apt-get install php-mbstring
