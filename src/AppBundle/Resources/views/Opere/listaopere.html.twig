@@ -3,9 +3,17 @@
 {% block title %}Lista opere{% endblock %}
 
 {% block body %}
-<h1>Lista opere</h1>
+<div class="row">
+    <div class="col-lg-6">
+        <h2>Nuova opera</h2>
+    </div>
+    <div class="col-lg-6">
+        <a class="btn btn-primary btn-block" href="{{ path('operanuova') }}">Nuova opera</a>
+    </div>
+</div>
 <div class="row">
     <div class="col-lg-12">
+    <h2>Lista opere</h2>
     <div class="table-responsive"> 
         <table class="table table-bordered">
             <thead>
