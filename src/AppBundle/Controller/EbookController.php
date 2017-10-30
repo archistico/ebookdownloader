@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
-use AppBundle\Entity\Ebook;
+use AppBundle\Entity\Codici;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
@@ -17,8 +17,7 @@ class EbookController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $ebook = new Ebook();
-        //$ebook->setCodice('1234567890');
+        $ebook = new Codici();
         
         $form = $this->createFormBuilder($ebook)
             ->add('codice', TextType::class, array('label' => 'Inserisci il codice del cartoncino'))
@@ -32,7 +31,7 @@ class EbookController extends Controller
             $codice = $form->getData()->getCodice();
 
             $ebook = $this->getDoctrine()
-                ->getRepository(Ebook::class)
+                ->getRepository(Codici::class)
                 ->findOneBy(
                     array('codice' => $codice)
                 );
@@ -53,41 +52,7 @@ class EbookController extends Controller
 
         return $this->render('AppBundle:Ebook:index.html.twig', array(
             'form' => $form->createView(),
-        ));
-        
-        
-    }
-
-    /**
-     * @Route("/nuovo", name="nuovo")
-     */
-    public function nuovoAction(Request $request)
-    {
-        $ebook = new Ebook();
-        
-        $form = $this->createFormBuilder($ebook)
-            ->add('codice', TextType::class, array('label' => 'Inserisci il codice del cartoncino'))
-            ->add('epub', TextType::class, array('label' => 'File epub'))
-            ->add('save', SubmitType::class, array('label' => 'Crea ebook', 'attr' => array('class' => 'btn-primary btn-block')))
-            ->getForm();
-        
-        $form->handleRequest($request);
-            
-        if ($form->isSubmitted() && $form->isValid()) {
-            
-            $ebook = $form->getData();
-            
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($ebook);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('homepage'));
-        }
-
-        return $this->render('AppBundle:Ebook:nuovo.html.twig', array(
-            'form' => $form->createView(),
-        ));
-                
+        ));        
     }
 
 
@@ -97,15 +62,18 @@ class EbookController extends Controller
     public function downloadAction($codice)
     {
         $ebook = $this->getDoctrine()
-            ->getRepository(Ebook::class)
+            ->getRepository(Codici::class)
             ->findOneBy(
                 array('codice' => $codice)
             );
     
         if (!$ebook) {
-            throw $this->createNotFoundException(
-                'Nessun ebook ha questo codice '.$codice
+            $this->addFlash(
+                'notice',
+                'Nessun ebook con questo codice: '.$codice
             );
+
+            return $this->redirectToRoute('homepage');
         }
     
         return $this->render('AppBundle:Ebook:download.html.twig', array(
