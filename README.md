@@ -87,3 +87,7 @@ sudo smbpasswd -a emilie
 
 sudo service smbd restart
 sudo service nmbd restart
+
+// PROBLEMA STORAGE
+sudo chown -R www-data:www-data var/cache
+sudo chown -R www-data:www-data var/logs
