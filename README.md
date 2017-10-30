@@ -51,3 +51,39 @@ sudo apt-get install php-mbstring
  sudo a2dismod php7.0
  sudo service apache2 restart
  
+ // Directory condivisa
+
+sudo apt install samba
+
+mkdir -P 
+sudo nano /etc/samba/smb.conf
+
+[share]
+comment = Ubuntu File Server Share
+path = /home/dev/condivisa
+browsable = yes
+guest ok = yes
+read only = no
+create mask = 0755
+
+sudo mkdir -p condivisa
+sudo chown -R root:users condivisa
+sudo chmod -R ug+rwx,o+rx-w condivisa
+
+sudo useradd emilie -m -G users
+passwd emilie
+sudo usermod -aG users emilie
+
+sudo smbpasswd -a emilie
+
+[allusers]
+ comment = All Users
+ path = /srv/samba/allusers/
+ valid users = @users
+ force group = users
+ create mask = 0660
+ directory mask = 0771
+ writable = yes
+
+sudo service smbd restart
+sudo service nmbd restart
