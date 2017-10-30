@@ -1,0 +1,41 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Lista codici{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-6">
+        <h2>Nuovo codice</h2>
+    </div>
+    <div class="col-lg-6">
+        <a class="btn btn-primary btn-block" href="{{ path('codicenuovo') }}">Nuovo</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+    <h2>Lista codici</h2>
+    <div class="table-responsive"> 
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Opera</th>
+                    <th>Codice</th>
+                    <th>Download</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% for o in codici %}
+            <tr>
+                <td>{{ o.id }}</td>
+                <td></td>
+                <td>{{ o.codice }}</td>
+                <td>{{ o.download }}</td>
+            </tr>
+        {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    </div>
+</div>
+{% endblock %}

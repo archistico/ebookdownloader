@@ -37,6 +37,13 @@ class Opere
     */
     private $nomefile;
 
+
+    /**
+     * @ORM\OneToMany(targetEntity="Codici", mappedBy="opere")
+     */
+    private $codici;
+
+
     public function getId()
     {
         return $this->id;

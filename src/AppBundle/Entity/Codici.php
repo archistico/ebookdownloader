@@ -35,6 +35,12 @@ class Codici
      */
     private $download;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Opere", inversedBy="codici")
+     * @ORM\JoinColumn(name="opere_id", referencedColumnName="id")
+     */
+    private $opere;
+
 
     /**
      * Get id
