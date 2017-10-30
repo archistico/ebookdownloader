@@ -64,7 +64,20 @@ class CodiciController extends Controller
             
             $codice->setOpere($opera);
 
-            $codice->setCodice(substr(sha1($opera->getInfo().Costanti::SALT),-10));
+
+            $repo = $this->getDoctrine()
+                    ->getManager()
+                    ->getRepository('AppBundle:Codici');
+
+            $qb = $repo->createQueryBuilder('a');
+            $qb->select('COUNT(a)');
+            $qb->where('a.opere = :opere');
+            $qb->setParameter('opere', $codice->getOpere()->getId());
+
+            $count = $qb->getQuery()->getSingleScalarResult();
+            $numDownload = sprintf("%02d", $count);
+
+            $codice->setCodice(substr(sha1($opera->getInfo().$numDownload.Costanti::SALT),-10));
             $codice->setDownload(Costanti::MAXDOWNLOAD);
             
             $em = $this->getDoctrine()->getManager();
