@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}Welcome!{% endblock %}</title>
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono" rel="stylesheet"> 
         <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
         <link rel="stylesheet" href="{{ asset('css/main.css') }}" />
         {% block stylesheets %}{% endblock %}
@@ -14,15 +15,16 @@
 
         <header class="header clearfix">
         <nav>
+        {% set current_path = app.request.get('_route') %}
           <ul class="nav nav-pills float-right">
             <li class="nav-item">
-              <a class="nav-link active" href="{{ path('homepage') }}">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link {% if current_path=='homepage' %}active{% endif %}" href="{{ path('homepage') }}">Home </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ path('operalista') }}">Opere</a>
+              <a class="nav-link {% if current_path=='operalista' %}active{% endif %}" href="{{ path('operalista') }}">Opere </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ path('codicelista') }}">Codice</a>
+              <a class="nav-link {% if current_path=='codicelista' %}active{% endif %}" href="{{ path('codicelista') }}">Codice </a>
             </li>
           </ul>
         </nav>
