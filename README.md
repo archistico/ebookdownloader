@@ -39,3 +39,15 @@ sudo chown -R $USER $HOME/.composer
 sudo apt-get update
 sudo apt-get install php7.1-xml
 sudo apt-get install php-mbstring
+
+// su app_dev.php dare il permesso all'ip della macchina di lavoro
+
+ HTTPDUSER=$(ps axo user,comm | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1)
+
+ sudo setfacl -dR -m u:"$HTTPDUSER":rwX -m u:$(whoami):rwX var
+ sudo setfacl -R -m u:"$HTTPDUSER":rwX -m u:$(whoami):rwX var
+
+ sudo a2enmod php7.1
+ sudo a2dismod php7.0
+ sudo service apache2 restart
+ 
