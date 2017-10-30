@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity
@@ -37,12 +38,15 @@ class Opere
     */
     private $nomefile;
 
-
     /**
      * @ORM\OneToMany(targetEntity="Codici", mappedBy="opere")
      */
     private $codici;
 
+    public function __construct()
+    {
+        $this->codici = new ArrayCollection();
+    }
 
     public function getId()
     {
@@ -91,6 +95,10 @@ class Opere
 
     public function getInfo()
     {
-        return $this->titolo . " - " . $this->autore . "(" . $this->isbn .")";
+        return $this->titolo . " - " . $this->autore . " (" . $this->isbn .")";
+    }
+
+    public function __toString() {
+        return $this->getInfo();
     }
 }

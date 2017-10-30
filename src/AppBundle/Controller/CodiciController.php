@@ -11,6 +11,8 @@ use AppBundle\Entity\Codici;
 use AppBundle\Entity\Costanti;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\ORM\EntityRepository;
 
 class CodiciController extends Controller
 {
@@ -38,18 +40,33 @@ class CodiciController extends Controller
         $codice = new Codici();
         
         $form = $this->createFormBuilder($codice)
-            ->add('codice', TextType::class, array('label' => 'Inserisci il codice dell\'ebook'))
-            ->add('save', SubmitType::class, array('label' => 'Crea nuova opera', 'attr' => array('class' => 'btn-primary btn-block')))
+            ->add('opere', EntityType::class, array('label' => 'Scegli l\'opera', 
+                            'class' => 'AppBundle:Opere',
+                            'choice_label' => 'getInfo', 
+                            ))
+            ->add('save', SubmitType::class, array('label' => 'Crea nuovo codice', 'attr' => array('class' => 'btn-primary btn-block')))
             ->getForm();
         
         $form->handleRequest($request);
             
         if ($form->isSubmitted() && $form->isValid()) {
             
+            
+            
+            // Conta il numero di codici per un opera e aggiungi alle info
+            // ...
+            
             $codice = $form->getData();
-            $codice->setCodice(substr(sha1('Emilie'.Costanti::SALT),-10));
-            $codice->setDownload(1);
+            
+            $opera = $this->getDoctrine()
+                    ->getRepository(Opere::class)
+                    ->find($codice->getOpere()->getId());
+            
+            $codice->setOpere($opera);
 
+            $codice->setCodice(substr(sha1($opera->getInfo().Costanti::SALT),-10));
+            $codice->setDownload(Costanti::MAXDOWNLOAD);
+            
             $em = $this->getDoctrine()->getManager();
             $em->persist($codice);
             $em->flush();

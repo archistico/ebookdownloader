@@ -42,6 +42,16 @@ class Codici
     private $opere;
 
 
+    public function getOpere()
+    {
+        return $this->opere;
+    }
+
+    public function setOpere($opere)
+    {
+        $this->opere = $opere;
+    }
+
     /**
      * Get id
      *
