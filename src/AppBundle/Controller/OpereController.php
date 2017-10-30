@@ -14,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 class OpereController extends Controller
 {
     /**
-     * @Route("/nuovaopera", name="nuovaopera")
+     * @Route("/opera/nuova", name="operanuova")
      */
     public function nuovaoperaAction(Request $request)
     {
@@ -39,7 +39,7 @@ class OpereController extends Controller
             $em->persist($opera);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('listaopere'));
+            return $this->redirect($this->generateUrl('operalista'));
         }
 
         return $this->render('AppBundle:Opere:nuovaopera.html.twig', array(
@@ -48,7 +48,7 @@ class OpereController extends Controller
     }
 
     /**
-     * @Route("/listaopere", name="listaopere")
+     * @Route("/opera/lista", name="operalista")
      */
     public function listaopereAction()
     {
