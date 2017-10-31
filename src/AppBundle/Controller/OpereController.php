@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
+use Symfony\Component\Filesystem\Filesystem;
 
 class OpereController extends Controller
 {
@@ -71,4 +71,42 @@ class OpereController extends Controller
         ));
     }
 
+    /**
+     * @Route("/opere/delete/{id}", name="operecancella")
+     */
+    public function deleteAction($id)
+    {
+        $opera = $this->getDoctrine()
+            ->getRepository(Opere::class)
+            ->findOneBy(
+                array('id' => $id)
+            );
+    
+        if (!$opera) {
+            $this->addFlash(
+                'notice',
+                'Nessun opera con questo id: '.$id
+            );
+            return $this->redirectToRoute('operalista');
+        }
+
+        // CONTROLLARE CHE NON CI SIANO CODICI ATTIVI
+
+        // Cancella anche il file
+        $fs = new Filesystem();
+        $filenamepdf = $this->getParameter('filepdf_directory').'/'.$opera->getFilepdf();
+                
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($opera);
+        $em->flush();    
+
+        try {
+            $fs->remove($filenamepdf);
+        } catch (IOExceptionInterface $e) {
+            echo "Errore nella cancellazione del file: ".$filenamepdf."  ".$e->getPath();
+        }
+        
+        return $this->redirectToRoute('operalista');
+
+    }
 }

@@ -23,6 +23,7 @@
                     <th>Autore</th>
                     <th>ISBN</th>
                     <th>Nome file</th>
+                    <th>X</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,6 +34,7 @@
                 <td>{{ o.autore }}</td>
                 <td>{{ o.isbn }}</td>
                 <td>{{ o.nomefile }}</td>
+                <td><a class="btn btn-danger" href="{{ path('operecancella', {'id': o.id}) }}">X</a></td>
             </tr>
         {% endfor %}
             </tbody>
