@@ -3,6 +3,13 @@
 {% block title %}Lista codici{% endblock %}
 
 {% block body %}
+
+{% for message in app.flashes('notice') %}
+    <div class="alert alert-warning" role="alert">
+      {{ message }}
+    </div>
+{% endfor %}
+
 <div class="row">
     <div class="col-lg-6">
         <h2>Nuovo codice</h2>
@@ -22,6 +29,7 @@
                     <th>Opera</th>
                     <th>Codice</th>
                     <th>Download</th>
+                    <th>X</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,6 +39,7 @@
                 <td>{{ o.opere }}</td>
                 <td>{{ o.codice }}</td>
                 <td>{{ o.download }}</td>
+                <td><a class="btn btn-danger" href="{{ path('codicecancella', {'id': o.id}) }}">X</a></td>
             </tr>
         {% endfor %}
             </tbody>

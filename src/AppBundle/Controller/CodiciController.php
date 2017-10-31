@@ -51,11 +51,6 @@ class CodiciController extends Controller
             
         if ($form->isSubmitted() && $form->isValid()) {
             
-            
-            
-            // Conta il numero di codici per un opera e aggiungi alle info
-            // ...
-            
             $codice = $form->getData();
             
             $opera = $this->getDoctrine()
@@ -63,7 +58,6 @@ class CodiciController extends Controller
                     ->find($codice->getOpere()->getId());
             
             $codice->setOpere($opera);
-
 
             $repo = $this->getDoctrine()
                     ->getManager()
@@ -90,6 +84,32 @@ class CodiciController extends Controller
         return $this->render('AppBundle:Codici:codicenuovo.html.twig', array(
             'form' => $form->createView(),
         ));
+    }
+
+    /**
+     * @Route("/codice/delete/{id}", name="codicecancella")
+     */
+    public function deleteAction($id)
+    {
+        $codice = $this->getDoctrine()
+            ->getRepository(Codici::class)
+            ->findOneBy(
+                array('id' => $id)
+            );
+    
+        if (!$codice) {
+            $this->addFlash(
+                'notice',
+                'Nessun codice con questo id: '.$id
+            );
+            return $this->redirectToRoute('codicelista');
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($codice);
+        $em->flush();    
+            
+        return $this->redirectToRoute('codicelista');
     }
 }
 
