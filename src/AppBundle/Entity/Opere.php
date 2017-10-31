@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -42,6 +43,25 @@ class Opere
      * @ORM\OneToMany(targetEntity="Codici", mappedBy="opere")
      */
     private $codici;
+
+    /**
+     * @ORM\Column(type="string")
+     *
+     * @Assert\NotBlank(message="Inserire il file PDF")
+     * @Assert\File(mimeTypes={ "application/pdf" })
+     */
+    private $filepdf;
+
+    public function getFilepdf()
+    {
+        return $this->filepdf;
+    }
+
+    public function setFilepdf($file)
+    {
+        $this->filepdf = $file;
+        return $this;
+    }
 
     public function __construct()
     {

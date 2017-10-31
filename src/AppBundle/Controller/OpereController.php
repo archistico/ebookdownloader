@@ -2,14 +2,16 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Opere;
+use AppBundle\Entity\Costanti;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
-
-use AppBundle\Entity\Opere;
-use AppBundle\Entity\Costanti;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 
 class OpereController extends Controller
 {
@@ -24,6 +26,7 @@ class OpereController extends Controller
             ->add('titolo', TextType::class, array('label' => 'Inserisci il titolo dell\'opera'))
             ->add('autore', TextType::class, array('label' => 'Inserisci il nome dell\'autore'))
             ->add('isbn', TextType::class, array('label' => 'Inserisci ISBN'))
+            ->add('filepdf', FileType::class, array('label' => 'Carica il file PDF', 'attr' => array('class' => 'form-control-file'))) 
             ->add('save', SubmitType::class, array('label' => 'Crea nuova opera', 'attr' => array('class' => 'btn-primary btn-block')))
             ->getForm();
         
@@ -34,7 +37,12 @@ class OpereController extends Controller
             $opera = $form->getData();
             $codice = substr(sha1($opera->getInfo().Costanti::SALT),-10);
             $opera->setNomefile($codice);
-            
+
+            $filepdf = $opera->getFilepdf();
+            $filenamepdf = $codice.'.'.$filepdf->guessExtension();
+            $filepdf->move($this->getParameter('filepdf_directory'), $filenamepdf);            
+            $opera->setFilepdf($filenamepdf);
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($opera);
             $em->flush();

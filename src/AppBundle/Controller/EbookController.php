@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 use AppBundle\Entity\Codici;
+use AppBundle\Entity\Opere;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
@@ -44,9 +45,17 @@ class EbookController extends Controller
 
                 return $this->redirectToRoute('homepage');                
             }
-    
+
+            // Cerca l'opera corrispondente
+            $id = $ebook->getId();
+            $opera = $this->getDoctrine()
+                ->getRepository(Opere::class)
+                ->findOneBy(
+                array('id' => $id)
+            );
+
             return $this->render('AppBundle:Ebook:download.html.twig', array(
-                'ebook' => $ebook,
+                'opera' => $opera,
             ));
         }
 

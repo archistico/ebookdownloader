@@ -5,8 +5,8 @@
 {% block body %}
 <div class="row">
     <div class="col-lg-12">
-    <p>Codice: {{ ebook.codice }}</p>
-    <p>Titolo: {{ ebook.opere }}</p>
+    <p>Titolo: {{ opera.titolo }}</p>
+    <a href="{{ asset('uploads/pdf/' ~ opera.getFilepdf) }}">Download ebook (PDF)</a>
     </div>
 </div>
 {% endblock %}
