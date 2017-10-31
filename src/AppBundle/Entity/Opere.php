@@ -121,4 +121,8 @@ class Opere
     public function __toString() {
         return $this->getInfo();
     }
+
+    public function getFilenamepdf() {
+        return str_replace("/", "-", $this->getInfo().".pdf");
+    }
 }

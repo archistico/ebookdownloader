@@ -11,6 +11,10 @@ use AppBundle\Entity\Opere;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+
 class EbookController extends Controller
 {
     /**
@@ -56,6 +60,7 @@ class EbookController extends Controller
 
             return $this->render('AppBundle:Ebook:download.html.twig', array(
                 'opera' => $opera,
+                'codice' => $codice
             ));
         }
 
@@ -70,24 +75,72 @@ class EbookController extends Controller
      */
     public function downloadAction($codice)
     {
-        $ebook = $this->getDoctrine()
+        $cod = $this->getDoctrine()
             ->getRepository(Codici::class)
             ->findOneBy(
                 array('codice' => $codice)
             );
     
-        if (!$ebook) {
+        if (!$cod) {
             $this->addFlash(
                 'notice',
-                'Nessun ebook con questo codice: '.$codice
+                'Nessun opera con questo codice: '.$codice
             );
 
             return $this->redirectToRoute('homepage');
         }
+
+        $opera = $this->getDoctrine()
+            ->getRepository(Opere::class)
+            ->find($cod->getOpere()->getId());
     
         return $this->render('AppBundle:Ebook:download.html.twig', array(
-            'ebook' => $ebook,
+            'opera' => $opera,
+            'codice' => $codice,
         ));
+    }
+
+    /**
+     * @Route("/download/pdf/{codice}", name="downloadpdf")
+     */
+    public function downloadpdfAction($codice)
+    {
+        $cod = $this->getDoctrine()
+            ->getRepository(Codici::class)
+            ->findOneBy(
+                array('codice' => $codice)
+            );
+    
+        if (!$cod) {
+            $this->addFlash(
+                'notice',
+                'Nessuna opera collegata con questo codice: '.$codice
+            );
+
+            return $this->redirectToRoute('homepage');
+        }
+        
+        $opera = $this->getDoctrine()
+            ->getRepository(Opere::class)
+            ->find($cod->getOpere()->getId());
+
+        $filenamepdf = $this->getParameter('filepdf_directory').'/'.$opera->getFilepdf();
+
+        // check if file exists
+        $fs = new FileSystem();
+        if (!$fs->exists($filenamepdf)) {
+            throw $this->createNotFoundException();
+        }
+
+        // prepare BinaryFileResponse
+        $response = new BinaryFileResponse($filenamepdf);
+        $response->trustXSendfileTypeHeader();
+        $response->setContentDisposition(
+            ResponseHeaderBag::DISPOSITION_INLINE,
+            $opera->getFilenamepdf(),
+            iconv('UTF-8', 'ASCII//TRANSLIT', $opera->getFilenamepdf())
+        );
+        return $response;
     }
 
 }
