@@ -119,6 +119,8 @@ class EbookController extends Controller
 
             return $this->redirectToRoute('homepage');
         }
+
+        
         
         $opera = $this->getDoctrine()
             ->getRepository(Opere::class)
