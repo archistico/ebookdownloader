@@ -33,7 +33,7 @@ class EbookController extends Controller
             $ebook = $this->getDoctrine()
                 ->getRepository(Codici::class)
                 ->findOneBy(
-                    array('codice' => $codice)
+                    array('codice' => strtolower($codice))
                 );
     
             if (!$ebook) {
