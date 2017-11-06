@@ -35,28 +35,24 @@ class EbookController extends Controller
             
             $codice = $form->getData()->getCodice();
 
-            $ebook = $this->getDoctrine()
-                ->getRepository(Codici::class)
-                ->findOneBy(
-                    array('codice' => strtolower($codice))
-                );
+            $cod = $this->getDoctrine()
+            ->getRepository(Codici::class)
+            ->findOneBy(
+                array('codice' => $codice)
+            );
     
-            if (!$ebook) {
+            if (!$cod) {
                 $this->addFlash(
                     'notice',
-                    'Nessun ebook con questo codice: '.$codice
+                    'Nessun opera con questo codice: '.$codice
                 );
 
-                return $this->redirectToRoute('homepage');                
+                return $this->redirectToRoute('homepage');
             }
 
-            // Cerca l'opera corrispondente
-            $id = $ebook->getId();
             $opera = $this->getDoctrine()
                 ->getRepository(Opere::class)
-                ->findOneBy(
-                array('id' => $id)
-            );
+                ->find($cod->getOpere()->getId());
 
             return $this->render('AppBundle:Ebook:download.html.twig', array(
                 'opera' => $opera,
