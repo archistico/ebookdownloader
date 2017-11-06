@@ -16,7 +16,7 @@ use Symfony\Component\Filesystem\Filesystem;
 class OpereController extends Controller
 {
     /**
-     * @Route("/opera/nuova", name="operanuova")
+     * @Route("admin/opera/nuova", name="operanuova")
      */
     public function nuovaoperaAction(Request $request)
     {
@@ -56,7 +56,7 @@ class OpereController extends Controller
     }
 
     /**
-     * @Route("/opera/lista", name="operalista")
+     * @Route("admin/opera/lista", name="operalista")
      */
     public function listaopereAction()
     {
@@ -72,7 +72,7 @@ class OpereController extends Controller
     }
 
     /**
-     * @Route("/opere/delete/{id}", name="operecancella")
+     * @Route("admin/opere/delete/{id}", name="operecancella")
      */
     public function deleteAction($id)
     {

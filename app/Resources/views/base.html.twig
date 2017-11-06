@@ -20,12 +20,21 @@
             <li class="nav-item">
               <a class="nav-link {% if current_path=='homepage' %}active{% endif %}" href="{{ path('homepage') }}">Home </a>
             </li>
+          {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
             <li class="nav-item">
               <a class="nav-link {% if current_path=='operalista' %}active{% endif %}" href="{{ path('operalista') }}">Opere </a>
             </li>
             <li class="nav-item">
               <a class="nav-link {% if current_path=='codicelista' %}active{% endif %}" href="{{ path('codicelista') }}">Codice </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ path('fos_user_security_logout') }}">Logout </a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ path('fos_user_security_login') }}">Login </a>
+            </li>
+            {% endif %}
           </ul>
         </nav>
         <h3 class="text-muted">EbookDownloader</h3>

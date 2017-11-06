@@ -17,7 +17,7 @@ use Doctrine\ORM\EntityRepository;
 class CodiciController extends Controller
 {
     /**
-     * @Route("/codice/lista", name="codicelista")
+     * @Route("admin/codice/lista", name="codicelista")
      */
     public function codicelistaAction()
     {
@@ -33,7 +33,7 @@ class CodiciController extends Controller
     }
 
     /**
-     * @Route("/codice/nuovo", name="codicenuovo")
+     * @Route("admin/codice/nuovo", name="codicenuovo")
      */
     public function codicenuovoAction(Request $request)
     {
@@ -87,7 +87,7 @@ class CodiciController extends Controller
     }
 
     /**
-     * @Route("/codice/delete/{id}", name="codicecancella")
+     * @Route("admin/codice/delete/{id}", name="codicecancella")
      */
     public function deleteAction($id)
     {
