@@ -22,7 +22,7 @@
                     <th>Titolo</th>
                     <th>Autore</th>
                     <th>ISBN</th>
-                    <th>Nome file</th>
+                    <th>File</th>
                     <th>X</th>
                 </tr>
             </thead>
@@ -33,7 +33,7 @@
                 <td>{{ o.titolo }}</td>
                 <td>{{ o.autore }}</td>
                 <td>{{ o.isbn }}</td>
-                <td>{{ o.nomefile }}</td>
+                <td>{% if o.filepdf is not empty %}PDF{% endif %}{% if o.fileepub is not empty %} EPUB{% endif %}{% if o.filemobi is not empty %} MOBI{% endif %}</td>
                 <td><a class="btn btn-danger" href="{{ path('operecancella', {'id': o.id}) }}">X</a></td>
             </tr>
         {% endfor %}

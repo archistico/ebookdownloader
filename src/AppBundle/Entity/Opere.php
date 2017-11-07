@@ -21,16 +21,19 @@ class Opere
 
     /**
     * @ORM\Column(type="string", length=100)
+    * @Assert\NotBlank()
     */
     private $titolo;
 
     /**
     * @ORM\Column(type="string", length=100)
+    * @Assert\NotBlank()
     */
     private $autore;
 
     /**
     * @ORM\Column(type="string", length=100)
+    * @Assert\NotBlank()
     */
     private $isbn;
 
@@ -156,5 +159,13 @@ class Opere
 
     public function getFilenamepdf() {
         return str_replace("/", "-", $this->getInfo().".pdf");
+    }
+
+    public function getFilenameepub() {
+        return str_replace("/", "-", $this->getInfo().".epub");
+    }
+
+    public function getFilenamemobi() {
+        return str_replace("/", "-", $this->getInfo().".mobi");
     }
 }

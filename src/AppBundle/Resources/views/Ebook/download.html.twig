@@ -9,15 +9,15 @@
     <p>Autore: {{ opera.autore }}<br>
     ISBN: {{ opera.isbn }}</p>
     {% if opera.filepdf is not empty %}
-        <a target="_blank" href="{{ path('downloadpdf', {'codice': codice}) }}">Download ebook (PDF)</a>
+        <a class="btn btn-success btn-block" target="_blank" href="{{ path('downloadpdf', {'codice': codice}) }}">Download ebook (PDF)</a>
     {% endif %}
     
     {% if opera.fileepub is not empty %}
-        <a target="_blank" href="{{ path('downloadepub', {'codice': codice}) }}">Download ebook (EPUB)</a>
+        <a class="btn btn-success btn-block" target="_blank" href="{{ path('downloadepub', {'codice': codice}) }}">Download ebook (EPUB)</a>
     {% endif %}
 
     {% if opera.filemobi is not empty %}
-        <a target="_blank" href="{{ path('downloadmobi', {'codice': codice}) }}">Download ebook (MOBI)</a>
+        <a class="btn btn-success btn-block" target="_blank" href="{{ path('downloadmobi', {'codice': codice}) }}">Download ebook (MOBI)</a>
     {% endif %}
 
     </div>
