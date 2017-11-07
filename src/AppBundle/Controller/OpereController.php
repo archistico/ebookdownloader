@@ -26,7 +26,9 @@ class OpereController extends Controller
             ->add('titolo', TextType::class, array('label' => 'Inserisci il titolo dell\'opera'))
             ->add('autore', TextType::class, array('label' => 'Inserisci il nome dell\'autore'))
             ->add('isbn', TextType::class, array('label' => 'Inserisci ISBN'))
-            ->add('filepdf', FileType::class, array('label' => 'Carica il file PDF', 'attr' => array('class' => 'form-control-file'))) 
+            ->add('filepdf', FileType::class, array('label' => 'Carica il file PDF', 'attr' => array('class' => 'form-control-file')))
+            ->add('fileepub', FileType::class, array('label' => 'Carica il file EPUB', 'attr' => array('class' => 'form-control-file'))) 
+            ->add('filemobi', FileType::class, array('label' => 'Carica il file MOBI', 'attr' => array('class' => 'form-control-file'))) 
             ->add('save', SubmitType::class, array('label' => 'Crea nuova opera', 'attr' => array('class' => 'btn-primary btn-block')))
             ->getForm();
         

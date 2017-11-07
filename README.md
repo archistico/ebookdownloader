@@ -84,7 +84,9 @@ sudo smbpasswd -a emilie
  create mask = 0660
  directory mask = 0771
  writable = yes
-
+ write list = @users, dev, emilie
+ read list = @users, dev, emilie
+ 
 sudo service smbd restart
 sudo service nmbd restart
 
@@ -94,3 +96,18 @@ sudo chown -R www-data:www-data var/logs
 
 // Problema diritti
 sudo chown -R emilie:users ebookdownloader
+
+// AGGIUNTO FOS, QUANDO SCARICO DA GIT
+git pull origin master
+composer update
+php bin/console doctrine:schema:update --force
+php bin/console fos:user:create
+php bin/console fos:user:promote (serve il ROLE_ADMIN)
+
+// se mi ha cambiato diritti cartella
+sudo chown -R www-data:www-data var/cache
+sudo chown -R www-data:www-data var/logs
+php bin/console cache:clear
+
+// Entity Opere tolto
+// * @Assert\NotBlank(message="Inserire il file MOBI")

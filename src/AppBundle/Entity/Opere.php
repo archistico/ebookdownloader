@@ -47,7 +47,6 @@ class Opere
     /**
      * @ORM\Column(type="string")
      *
-     * @Assert\NotBlank(message="Inserire il file PDF")
      * @Assert\File(mimeTypes={ "application/pdf" })
      */
     private $filepdf;
@@ -60,6 +59,42 @@ class Opere
     public function setFilepdf($file)
     {
         $this->filepdf = $file;
+        return $this;
+    }
+
+    /**
+     * @ORM\Column(type="string")
+     *
+     * @Assert\File(mimeTypes={ "application/epub+zip" })
+     */
+    private $fileepub;
+
+    public function getFileepub()
+    {
+        return $this->fileepub;
+    }
+
+    public function setFileepub($file)
+    {
+        $this->fileepub = $file;
+        return $this;
+    }
+
+    /**
+     * @ORM\Column(type="string")
+     *
+     * @Assert\File(mimeTypes={ "application/vnd.amazon.mobi8-ebook" })
+     */
+    private $filemobi;
+    
+    public function getFilemobi()
+    {
+        return $this->filemobi;
+    }
+
+    public function setFilemobi($file)
+    {
+        $this->filemobi = $file;
         return $this;
     }
 
