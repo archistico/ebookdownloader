@@ -113,3 +113,11 @@ php bin/console cache:clear
 // * @Assert\NotBlank(message="Inserire il file MOBI")
 
 // entrare in ssh con emilie e non con il root
+
+// Da settare per varie modifiche con php bin/console
+sudo chown -R emilie:www-data var/cache
+sudo chown -R emilie:www-data var/logs
+
+// Da settare quando è in funzione il sito
+sudo chown -R www-data:www-data var/cache
+sudo chown -R www-data:www-data var/logs
