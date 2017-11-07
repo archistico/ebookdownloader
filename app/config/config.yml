@@ -8,6 +8,8 @@ imports:
 parameters:
     locale: en
     filepdf_directory: '%kernel.project_dir%/web/uploads/pdf'
+    fileepub_directory: '%kernel.project_dir%/web/uploads/epub'
+    filemobi_directory: '%kernel.project_dir%/web/uploads/mobi'
 
 framework:
     #esi: ~

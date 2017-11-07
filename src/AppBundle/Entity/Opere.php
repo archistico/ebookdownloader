@@ -45,8 +45,7 @@ class Opere
     private $codici;
 
     /**
-     * @ORM\Column(type="string")
-     *
+     * @ORM\Column(type="string", nullable=true)
      * @Assert\File(mimeTypes={ "application/pdf" })
      */
     private $filepdf;
@@ -63,8 +62,7 @@ class Opere
     }
 
     /**
-     * @ORM\Column(type="string")
-     *
+     * @ORM\Column(type="string", nullable=true)
      * @Assert\File(mimeTypes={ "application/epub+zip" })
      */
     private $fileepub;
@@ -81,8 +79,7 @@ class Opere
     }
 
     /**
-     * @ORM\Column(type="string")
-     *
+     * @ORM\Column(type="string", nullable=true)
      * @Assert\File(mimeTypes={ "application/vnd.amazon.mobi8-ebook" })
      */
     private $filemobi;

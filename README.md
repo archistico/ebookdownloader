@@ -111,3 +111,5 @@ php bin/console cache:clear
 
 // Entity Opere tolto
 // * @Assert\NotBlank(message="Inserire il file MOBI")
+
+// entrare in ssh con emilie e non con il root

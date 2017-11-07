@@ -29,7 +29,6 @@ class OpereController extends Controller
             ->add('filepdf', FileType::class, array('label' => 'Carica il file PDF', 'attr' => array('class' => 'form-control-file')))
             ->add('fileepub', FileType::class, array('label' => 'Carica il file EPUB', 'attr' => array('class' => 'form-control-file'))) 
             ->add('filemobi', FileType::class, array('label' => 'Carica il file MOBI', 'attr' => array('class' => 'form-control-file'))) 
-            ->add('save', SubmitType::class, array('label' => 'Crea nuova opera', 'attr' => array('class' => 'btn-primary btn-block')))
             ->getForm();
         
         $form->handleRequest($request);
@@ -40,10 +39,26 @@ class OpereController extends Controller
             $codice = substr(sha1($opera->getInfo().Costanti::SALT),-10);
             $opera->setNomefile($codice);
 
-            $filepdf = $opera->getFilepdf();
-            $filenamepdf = $codice.'.'.$filepdf->guessExtension();
-            $filepdf->move($this->getParameter('filepdf_directory'), $filenamepdf);            
-            $opera->setFilepdf($filenamepdf);
+            if(!empty($opera->getFilepdf())) {
+                $filepdf = $opera->getFilepdf();
+                $filenamepdf = $codice.'.'.$filepdf->guessExtension();
+                $filepdf->move($this->getParameter('filepdf_directory'), $filenamepdf);            
+                $opera->setFilepdf($filenamepdf);
+            } 
+
+            if(!empty($opera->getFileepub())) {
+                $fileepub = $opera->getFileepub();
+                $filenameepub = $codice.'.'.$fileepub->guessExtension();
+                $fileepub->move($this->getParameter('fileepub_directory'), $filenameepub);            
+                $opera->setFileepub($filenameepub);
+            }
+
+            if(!empty($opera->getFilemobi())) {
+                $filemobi = $opera->getFilepdf();
+                $filenamemobi = $codice.'.'.$filemobi->guessExtension();
+                $filemobi->move($this->getParameter('filemobi_directory'), $filenamemobi);            
+                $opera->setFilemobi($filenamemobi);
+            }
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($opera);

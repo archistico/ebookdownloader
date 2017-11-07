@@ -116,8 +116,6 @@ class EbookController extends Controller
             return $this->redirectToRoute('homepage');
         }
 
-        
-        
         $opera = $this->getDoctrine()
             ->getRepository(Opere::class)
             ->find($cod->getOpere()->getId());
@@ -141,4 +139,89 @@ class EbookController extends Controller
         return $response;
     }
 
+    /**
+     * @Route("/download/epub/{codice}", name="downloadepub")
+     */
+    public function downloadepubAction($codice)
+    {
+        $cod = $this->getDoctrine()
+            ->getRepository(Codici::class)
+            ->findOneBy(
+                array('codice' => $codice)
+            );
+    
+        if (!$cod) {
+            $this->addFlash(
+                'notice',
+                'Nessuna opera collegata con questo codice: '.$codice
+            );
+
+            return $this->redirectToRoute('homepage');
+        }
+      
+        $opera = $this->getDoctrine()
+            ->getRepository(Opere::class)
+            ->find($cod->getOpere()->getId());
+
+        $filenameepub = $this->getParameter('fileepub_directory').'/'.$opera->getFileepub();
+
+        // check if file exists
+        $fs = new FileSystem();
+        if (!$fs->exists($filenameepub)) {
+            throw $this->createNotFoundException();
+        }
+
+        // prepare BinaryFileResponse
+        $response = new BinaryFileResponse($filenameepub);
+        $response->trustXSendfileTypeHeader();
+        $response->setContentDisposition(
+            ResponseHeaderBag::DISPOSITION_INLINE,
+            $opera->getFilenameepub(),
+            iconv('UTF-8', 'ASCII//TRANSLIT', $opera->getFilenameepub())
+        );
+        return $response;
+    }
+
+    /**
+     * @Route("/download/mobi/{codice}", name="downloadmobi")
+     */
+    public function downloadmobiAction($codice)
+    {
+        $cod = $this->getDoctrine()
+            ->getRepository(Codici::class)
+            ->findOneBy(
+                array('codice' => $codice)
+            );
+    
+        if (!$cod) {
+            $this->addFlash(
+                'notice',
+                'Nessuna opera collegata con questo codice: '.$codice
+            );
+
+            return $this->redirectToRoute('homepage');
+        }
+      
+        $opera = $this->getDoctrine()
+            ->getRepository(Opere::class)
+            ->find($cod->getOpere()->getId());
+
+        $filenamemobi = $this->getParameter('filemobi_directory').'/'.$opera->getFilemobi();
+
+        // check if file exists
+        $fs = new FileSystem();
+        if (!$fs->exists($filenamemobi)) {
+            throw $this->createNotFoundException();
+        }
+
+        // prepare BinaryFileResponse
+        $response = new BinaryFileResponse($filenamemobi);
+        $response->trustXSendfileTypeHeader();
+        $response->setContentDisposition(
+            ResponseHeaderBag::DISPOSITION_INLINE,
+            $opera->getFilenamemobi(),
+            iconv('UTF-8', 'ASCII//TRANSLIT', $opera->getFilenamemobi())
+        );
+        return $response;
+    }
 }
