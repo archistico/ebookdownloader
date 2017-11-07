@@ -49,7 +49,7 @@ class Opere
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\File(mimeTypes={ "application/pdf" })
+     * @Assert\File(mimeTypes={ "application/pdf" }, mimeTypesMessage = "Caricare un file PDF valido")
      */
     private $filepdf;
 
@@ -66,7 +66,7 @@ class Opere
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\File(mimeTypes={ "application/epub+zip" })
+     * @Assert\File(mimeTypes={ "application/epub+zip" }, mimeTypesMessage = "Caricare un file EPUB valido")
      */
     private $fileepub;
 
@@ -83,7 +83,7 @@ class Opere
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\File(mimeTypes={ "application/vnd.amazon.mobi8-ebook" })
+     * @Assert\File(mimeTypes={ "application/vnd.amazon.mobi8-ebook" }, mimeTypesMessage = "Caricare un file MOBI valido")
      */
     private $filemobi;
     
